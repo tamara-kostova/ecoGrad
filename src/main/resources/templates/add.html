@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <style>
+        .map-wrapper {
+            position: relative;
+        }
+
+        #map {
+            margin-left:5%;
+            height:60vh;
+            width: 90%;
+        }
+        .container-content{
+            margin-top: 5%;
+            display:flex;
+            align-self: center;
+        }
+        #forma{
+            height:60vh;
+            width: 50%;
+            display:inline-block;
+            margin-left: 10%;
+            margin-top: 5%;
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/home" class="nav-link px-2 text-secondary">Home</a></li>
+                    <li><a href="/add" class="nav-link px-2 text-white">Add</a></li>
+                    <li><a href="/profile" class="nav-link px-2 text-white">Profile</a></li>
+                    <li><a href="/statistic" class="nav-link px-2 text-white">Statistics</a></li>
+                </ul>
+
+                <div class="text-end">
+                    <a href="/logout" class="button btn btn-warning" sec:authorize="isAuthenticated()">Logout</a>
+                    <a href="/login" class="btn btn-outline-light me-2" sec:authorize="isAnonymous()">Login</a>
+                    <a href="/register" class="button btn btn-warning" sec:authorize="isAnonymous()">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+</div>
+
+<div class="container-content">
+    <div id="map">
+        <script>
+            var map = L.map('map').setView([41.9976, 21.4271], 13);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            let kliknato = L.marker([0,0]).addTo(map);
+            map.on('click', function(e) {
+                map.removeLayer(kliknato);
+                kliknato = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+                var lat = e.latlng.lat.toFixed(5);
+                var lng = e.latlng.lng.toFixed(5);
+                document.getElementById("textinput").value = lat + "," + lng;
+            });
+
+
+        </script>
+
+    </div>
+    <div id="forma">
+        <form action="/add" method="post">
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Location</label>
+                <div class="col-md-4">
+                <input id="textinput" name="location" type="text" placeholder="Location" value="" class="form-control input-md">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="photo">Date</label>
+
+                <div>
+                    <input class="col-md-4" type="date" id="date" name="dateReported" th:value="${date}">
+                </div>
+              </div>
+
+              <!-- Select Basic -->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="Type">Type</label>
+                <div class="col-md-4">
+                  <select id="Type" name="litterType" class="form-control">
+                      <option th:each="type:${types}" th:value="${type.name()}" th:text="${type.name()}"></option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Select Basic -->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="size">Size of pollutant</label>
+                <div class="col-md-4">
+                  <select id="size" name="litterSeverity" class="form-control">
+                      <option th:each="severity:${severities}" th:value="${severity.name()}" th:text="${severity.name()}"></option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- File Button -->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="photo">Upload Photo</label>
+                <div class="col-md-4">
+                  <input id="photo" name="image" class="input-file" type="file">
+                </div>
+              </div>
+            <div class="form-group">
+                <div class="col-md-4" style="margin-top: 1%;">
+                    <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+</body>
+</html>
