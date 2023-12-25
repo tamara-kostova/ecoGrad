@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+    <script src="js/leaflet.awesome-markers.js"></script>
+
+
+</head>
+<body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+            </ul>
+       
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light me-2">Login</button>
+              <button type="button" class="btn btn-warning">Sign-up</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+<div class="container">
+    <div id="map">
+        <style>
+            .map-wrapper {
+                position: relative;
+              }
+              
+              #map {
+                position: absolute;
+                top:7%;
+                right: 0;
+                bottom: 0;
+                left: 0;
+              }
+        </style>
+        <script>
+            var map = L.map('map').setView([41.9976, 21.4271], 13);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            var polygons = [L.polygon([
+            //Karposh 1 i 2, Debar Maalo
+            [42.00557,21.41743],
+            [42.00688,21.40609],
+            [41.99651,21.40388],
+            [41.99347,21.42483],
+            [41.99809,21.42550],
+            [42.00026,21.42739]
+            ],{color:'red'}).addTo(map),
+            L.polygon([
+            //Karposh 3 i 4, Tafatlidze 1 i 2
+            [42.00698,21.40605],
+            [42.01005,21.38216],
+            [42.00116,21.37737],
+            [41.99645,21.40343]],{color:'green'}).addTo(map),
+            L.polygon([
+            //Centara hexagon
+            [41.99347,21.42483],
+            [41.99809,21.42550],
+            [42.00026,21.42739],
+            [41.99905,21.42961],
+            [41.99882,21.44055],
+            [41.99408,21.44085],
+            [41.98964,21.43313]],{color:'blue'}).addTo(map),
+            L.polygon([
+            //Aerodrom 2(Jane)
+            [41.99354,21.46232],
+            [41.99432,21.46551],
+            [41.99093,21.47412],
+            [41.98782,21.48717],
+            [41.97945,21.47870],
+            [41.98987,21.45757]],{color:'yellow'}).addTo(map),
+            L.polygon([
+            //Aerodrom 1
+            [41.98256,21.47188],
+            [41.97710,21.46461],
+            [41.98898,21.43911],
+            [41.98776,21.43680],
+            [41.98938,21.43311],
+            [41.99404,21.44108],
+            [41.99459,21.44931],
+            [41.98978,21.45806]],{color:'purple'}).addTo(map),
+           L.polygon([
+            //Lisice
+            [41.98207,21.47121],
+            [41.97502,21.46290],
+            [41.96378,21.48827],
+            [41.97636,21.50137],
+            [41.98253,21.49680],
+            [41.98734,21.48818],
+            [41.97900,21.47872]],{color:'white'}).addTo(map),
+            L.polygon([
+            //Vlae i Hrom
+            [42.00134,21.37741],
+            [41.99734,21.37021],
+            [42.00116,21.36319],
+            [42.00698,21.36771],
+            [42.00854,21.36852],
+            [42.01263,21.38314]],{color:'orange'}).addTo(map),
+            L.polygon([
+            //Gjorce
+            [42.00863,21.36798],
+            [42.00137,21.36339],
+            [41.99882,21.35499],
+            [42.00322,21.34178],
+            [42.00705,21.33216],
+            [42.01029,21.33134],
+            [42.01085,21.35566],
+            [42.01070,21.36254]],{color:'pink'}).addTo(map),
+            L.polygon([
+            //Kozle,Kapistec
+            [41.99317,21.42441],
+            [42.00101,21.37702],
+            [41.99701,21.37071],
+            [41.98634,21.40373],
+            [41.98795,21.41778],
+    
+            ],{color:'black'}).addTo(map),
+            L.polygon([
+            //Kisela Voda
+            [41.97713,21.46439],
+            [41.97192,21.46006],
+            [41.96874,21.44893],
+            [41.97558,21.42883],
+            [41.98263,21.41701],
+            [41.9819,21.4074],
+            [41.98811,21.41763],
+            [41.99329,21.42459],
+            [41.98950,21.43321],
+            [41.98776,21.43683],
+            [41.98907,21.43924]
+            ],{color:'black'}).addTo(map),
+            L.polygon([
+            //butel 
+            [42.00534,21.44096],
+            [42.03998,21.45506],
+            [42.04292,21.44581],
+            [42.02638,21.42920],
+            [42.01500,21.41340]
+            ],{color:'maroon'}).addTo(map),
+            L.polygon([
+            //zelezara i avtokomanda
+            [42.00524,21.44184],
+            [42.02443,21.45110],
+            [42.00348,21.47424],
+            [41.99886,21.45084],
+            [42.00524,21.44146]
+            ],{color:'black'}).addTo(map),
+            L.polygon([
+            //Vlada,Park
+            [41.99912,21.43003],
+            [42.00537,21.41724],
+            [42.00791,21.39130],
+            [42.01017,21.38346],
+            [42.01251,21.38625],
+            [42.00950,21.39500],
+            [42.01246,21.40343],
+            [42.01115,21.41187],
+            [42.01311,21.41710],
+            [42.00822,21.42377],
+            [42.00579,21.42862],
+            ],{color:'pink'}).addTo(map),
+            L.polygon([
+            [41.99857,21.45118],
+            [41.99579,21.45019],
+            [41.99651,21.44597],
+            [41.99568,21.44121],
+            [41.99930,21.43203],
+            [42.01224,21.42150],
+            ],{color:'green'}).addTo(map)
+            ];
+            map.on('click', function(e) {
+                alert(e.latlng);
+            });
+        
+            let mapMarkers = {};
+            fetch('/litters') // Replace with your endpoint URL
+                .then(response => response.json())
+                .then(data => {
+                    mapMarkers = data;
+
+                    for (let key in data) {
+                        const litter = data[key]
+                        let marker = L.marker([litter.latitude, litter.longitude], {}).addTo(map);
+                        marker.bindPopup(`<strong>${litter.id}</strong><br>`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+
+
+        </script>
+    
+    </div>
+</div>
+
+</body>
+</html>
