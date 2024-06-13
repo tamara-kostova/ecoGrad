@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eco-grad-app
+  namespace: eco-grad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eco-grad
+  template:
+    metadata:
+      labels:
+        app: eco-grad
+    spec:
+      containers:
+      - name: eco-grad-app
+        image: tamarakostova/ecograd  
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_TYPE
+          value: postgres
+        - name: DB_HOST
+          value: eco-grad-db
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: eco-grad-db-secret
+              key: username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: eco-grad-db-secret
+              key: password
+        - name: DB_NAME
+          value: ecoGrad
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eco-grad-app
+  namespace: eco-grad
+spec:
+  selector:
+    app: eco-grad
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eco-grad-ingress
+  namespace: eco-grad
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: eco-grad-app
+            port:
+              number: 80
