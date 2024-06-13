@@ -1,4 +1,4 @@
-name: CI CD pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -9,7 +9,6 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -37,7 +36,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_CHANNEL: wiki-app
+          SLACK_CHANNEL: ecograd-app
           SLACK_COLOR: ${{ job.status }}
           SLACK_MESSAGE: 'Deployment done!'
           SLACK_USERNAME: Tamara Kostova
