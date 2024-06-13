@@ -18,12 +18,10 @@ services:
     depends_on:
       - db
     environment:
-      DB_TYPE: postgres
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASS: metallica
-      DB_NAME: ecoGrad
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ecoGrad
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=metallica
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     restart: unless-stopped
     ports:
       - "80:8080"
