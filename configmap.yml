@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ecograd-config
+  namespace: ecograd
 data:
   SPRING_DATASOURCE_URL: jdbc:postgresql://ecograd-db-service:5432/ecoGrad
   SPRING_JPA_HIBERNATE_DDL_AUTO: update
