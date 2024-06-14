@@ -1,0 +1,13 @@
+# postgres-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecograd-db-service
+  namespace: ecograd
+spec:
+  selector:
+    app: ecograd-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
