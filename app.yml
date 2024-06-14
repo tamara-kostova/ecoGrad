@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecograd-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecograd-app
+  template:
+    metadata:
+      labels:
+        app: ecograd-app
+    spec:
+      containers:
+      - name: ecograd-app
+        image: tamarakostova/ecograd
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: ecograd-config
+        - secretRef:
+            name: ecograd-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecograd-app-service
+spec:
+  selector:
+    app: ecograd-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
