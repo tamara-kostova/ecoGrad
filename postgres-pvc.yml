@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ecograd-db-pvc
+  namespace: ecograd
 spec:
   accessModes:
     - ReadWriteOnce
