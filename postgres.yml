@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecograd-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecograd-db
+  template:
+    metadata:
+      labels:
+        app: ecograd-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        env:
+        - name: POSTGRES_DB
+          value: ecoGrad
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: ecograd-secret
+              key: SPRING_DATASOURCE_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ecograd-secret
+              key: SPRING_DATASOURCE_PASSWORD
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: ecograd-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecograd-db-service
+spec:
+  selector:
+    app: ecograd-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
