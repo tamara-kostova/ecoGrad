@@ -34,11 +34,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Deploy to Kubernetes
-        uses: codecov/kubernetes-action@v2
+      - uses: Azure/k8s-deploy@v5
         with:
-          kuberconfig: ${{ secrets.KUBECONFIG }}
-          namespace: ecograd
-          args: apply -f k8s/
+          namespace: 'ecograd'
+          manifests: |
+            namespace.yml
+            secrets.yml
+            configmap.yml
+            ingress.yml
+            app.yml
+            headless-service.yml
+            postgres-pvc.yml
+            statefulset.yml
+          strategy: canary
+          action: deploy
 
   notify:
     if: always()
