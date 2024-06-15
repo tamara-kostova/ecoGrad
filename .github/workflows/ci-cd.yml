@@ -27,6 +27,19 @@ jobs:
       - name: Push Docker image to DockerHub
         run: docker push tamarakostova/ecograd:latest
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy to Kubernetes
+        uses: codecov/kubernetes-action@v2
+        with:
+          kuberconfig: ${{ secrets.KUBECONFIG }}
+          namespace: ecograd
+          args: apply -f k8s/
+
   notify:
     if: always()
     needs: build
