@@ -14,6 +14,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: ecograd-app-service
+            name: app
             port: 
-              number: 80
+              number: 8080
