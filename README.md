@@ -1,2 +1,2 @@
 # ecoGrad
-Developed an environmentally-friendly web app that allows users to report garbage that they encounter in the city -> working towards making the city cleaner for everyone.
+Developed an environmentally-friendly web application that allows users to report garbage that they encounter in the city -> working towards making the city cleaner for everyone.
